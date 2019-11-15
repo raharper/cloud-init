@@ -18,14 +18,13 @@ class TestHandleSsh(CiTestCase):
 
     def _publish_hostkey_test_setup(self):
         self.test_hostkeys = {
-            'dsa': ('ssh-dss', 'AAAAB3NzaC1kc3MAAACB'),
             'ecdsa': ('ecdsa-sha2-nistp256', 'AAAAE2VjZ'),
             'ed25519': ('ssh-ed25519', 'AAAAC3NzaC1lZDI'),
             'rsa': ('ssh-rsa', 'AAAAB3NzaC1yc2EAAA'),
         }
         self.test_hostkey_files = []
         hostkey_tmpdir = self.tmp_dir()
-        for key_type in ['dsa', 'ecdsa', 'ed25519', 'rsa']:
+        for key_type in ['ecdsa', 'ed25519', 'rsa']:
             key_data = self.test_hostkeys[key_type]
             filename = 'ssh_host_%s_key.pub' % key_type
             filepath = os.path.join(hostkey_tmpdir, filename)
@@ -96,7 +95,6 @@ class TestHandleSsh(CiTestCase):
         m_glob.assert_called_once_with('/etc/ssh/ssh_host_*key*')
         self.assertIn(
             [mock.call('/etc/ssh/ssh_host_rsa_key'),
-             mock.call('/etc/ssh/ssh_host_dsa_key'),
              mock.call('/etc/ssh/ssh_host_ecdsa_key'),
              mock.call('/etc/ssh/ssh_host_ed25519_key')],
             m_path_exists.call_args_list)
@@ -339,7 +337,7 @@ class TestHandleSsh(CiTestCase):
         cfg = {'ssh_publish_hostkeys': {'enabled': True,
                                         'blacklist': []}}
         expected_call = [self.test_hostkeys[key_type] for key_type
-                         in ['dsa', 'ecdsa', 'ed25519', 'rsa']]
+                         in ['ecdsa', 'ed25519', 'rsa']]
         cc_ssh.handle("name", cfg, cloud, LOG, None)
         self.assertEqual([mock.call(expected_call)],
                          cloud.datasource.publish_host_keys.call_args_list)

@@ -43,7 +43,6 @@ Supported key types for the ``ssh_keys`` and the ``ssh_genkeytypes`` config
 flags are:
 
     - rsa
-    - dsa
     - ecdsa
     - ed25519
 
@@ -83,12 +82,6 @@ enabled by default.  This feature may be disabled by setting
             ...
             -----END RSA PRIVATE KEY-----
         rsa_public: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAGEAoPRhIfLvedSDKw7Xd ...
-        dsa_private: |
-            -----BEGIN DSA PRIVATE KEY-----
-            MIIBxwIBAAJhAKD0YSHy73nUgysO13XsJmd4fHiFyQ+00R7VVu2iV9Qco
-            ...
-            -----END DSA PRIVATE KEY-----
-        dsa_public: ssh-dsa AAAAB3NzaC1yc2EAAAABIwAAAGEAoPRhIfLvedSDKw7Xd ...
     ssh_genkeytypes: <key type>
     disable_root: <true/false>
     disable_root_opts: <disable root options string>
@@ -110,7 +103,7 @@ from cloudinit import ssh_util
 from cloudinit import util
 
 
-GENERATE_KEY_NAMES = ['rsa', 'dsa', 'ecdsa', 'ed25519']
+GENERATE_KEY_NAMES = ['rsa', 'ecdsa', 'ed25519']
 KEY_FILE_TPL = '/etc/ssh/ssh_host_%s_key'
 PUBLISH_HOST_KEYS = True
 # Don't publish the dsa hostkey by default since OpenSSH recommends not using
